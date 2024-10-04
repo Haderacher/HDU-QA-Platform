@@ -1,0 +1,30 @@
+# 服务的配置信息
+app:
+  app_name: "gouse" # 应用名称
+  version: "v1.0.1" # 版本
+  port: 8082        # 服务启用端口
+  run_mode: dev # 可选dev、release模式
+
+# 数据库的配置
+db:
+  host: "localhost"     # host
+  port: 3306          # port
+  user: "root"        # user
+  password: "3223061"  # password
+  dbname: "qa-platform"    # dbname
+  max_idle_conn: 5    # 最大空闲连接数
+  max_open_conn: 20   # 最大连接数
+  max_idle_time: 300  # 最大空闲时间
+
+# Redis 配置
+redis:
+  rhost: "localhost"
+  rport: 6379
+  rdb: 0
+  passwd: ''
+  poolsize: 100
+
+# 缓存配置
+cache:
+  session_expired: 7200 # second
+  user_expired: 300  # second
