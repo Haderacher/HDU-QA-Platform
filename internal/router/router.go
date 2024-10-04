@@ -37,6 +37,9 @@ func InitRouterAndServe() {
 	// 更新用户信息
 	r.POST("/user/update_nick_name", AuthMiddleWare(), api.UpdateNickName)
 
+	// 创建一个问题
+	r.POST("/question/create", AuthMiddleWare(), api.CreateQuestion)
+
 	// 设置静态文件的路由，这里将 /static/ 映射到 ./web/static/ 目录，即 /static/ 为静态文件资源的访问路径。
 	r.Static("/static/", "./web/static/")
 
@@ -63,7 +66,7 @@ func setAppRunMode() {
 	}
 }
 
-// 这是一个用于对请求进行身份验证的中间件函数
+// AuthMiddleWare 这是一个用于对请求进行身份验证的中间件函数
 // 补充知识：gin.HandlerFunc的参数为 *gin.Context
 func AuthMiddleWare() gin.HandlerFunc {
 	return func(c *gin.Context) {

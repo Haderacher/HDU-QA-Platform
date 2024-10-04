@@ -1,6 +1,8 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 // 补充知识：gorm 标签
 // gorm 标签被用于定义数据库表的列名和列属性，
@@ -47,4 +49,22 @@ type User struct {
 	Age      int    `gorm:"column:age"`      // 年龄
 	PassWord string `gorm:"column:password"` // 密码
 	NickName string `gorm:"column:nickname"` // 昵称
+}
+
+type Answer struct {
+	CreateModel
+	ModifyModel
+	ID         int    `gorm:"column:id"`
+	Content    string `gorm:"column:content"`
+	QuestionID int    `gorm:"column:question_id"`
+	UserID     int    `gorm:"user_id"`
+}
+
+type Question struct {
+	CreateModel
+	ModifyModel
+	ID      int    `gorm:"column:id"`
+	Title   string `gorm:"column:title"`
+	UserID  int    `gorm:"column:user_id"`
+	Content string `gorm:"column:content"`
 }

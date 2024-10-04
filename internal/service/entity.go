@@ -39,3 +39,9 @@ type UpdateNickNameRequest struct {
 	UserName    string `json:"user_name"`
 	NewNickName string `json:"new_nick_name"`
 }
+
+// CreateQuestionRequest 创建问题请求
+type CreateQuestionRequest struct {
+	Content string `json:"content"`
+	Title   string `json:"title"`
+}

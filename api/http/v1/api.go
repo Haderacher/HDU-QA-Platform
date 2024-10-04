@@ -37,7 +37,7 @@ func Ping(c *gin.Context) {
 
 // Register 注册
 func Register(c *gin.Context) {
-	// req 变量用于存储注册请求信息（RegisterRequest 是一个结构体类型）
+	// req 变量用于存储注册请求信息
 	req := &service.RegisterRequest{}
 
 	// rsp 变量用于存储 http请求的响应信息
@@ -220,5 +220,34 @@ func UpdateNickName(c *gin.Context) {
 		rsp.ResponseWithError(c, CodeUpdateUserInfoErr, err.Error())
 		return
 	}
+	rsp.ResponseSuccess(c)
+}
+
+func CreateQuestion(c *gin.Context) {
+	// 获取请求中的名为 SessionKey 的 cookie 值，并赋值给 session 变量
+	session, _ := c.Cookie(constant.SessionKey)
+
+	// 创建一个 SessionKey 和 session 的键值对到上下文中
+	ctx := context.WithValue(context.Background(), constant.SessionKey, session)
+	// req 变量用于存储创建问题请求信息
+	req := &service.CreateQuestionRequest{}
+
+	// rsp 变量用于存储 http请求的响应信息
+	rsp := &HttpResponse{}
+
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		log.Errorf("request json err %v", err)
+		rsp.ResponseWithError(c, CodeBodyBindErr, err.Error())
+		return
+	}
+
+	// 如果没有解析错误，则调用名为 CreateQuestion 的服务函数处理创建问题业务逻辑。
+	// 如果处理过程中发生错误，将错误信息通过 rsp.ResponseWithError 方法返回给客户端。
+	if err := service.CreateQuestion(ctx, req); err != nil {
+		rsp.ResponseWithError(c, CodeRegisterErr, err.Error())
+		return
+	}
+
 	rsp.ResponseSuccess(c)
 }
