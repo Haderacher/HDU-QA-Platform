@@ -52,12 +52,6 @@ func InitRouterAndServe() {
 	// 创建一个回答
 	r.POST("/question/answer", AuthMiddleWare(), api.CreateAnswer)
 
-	// 设置静态文件的路由，这里将 /static/ 映射到 ./web/static/ 目录，即 /static/ 为静态文件资源的访问路径。
-	r.Static("/static/", "./web/static/")
-
-	// 设置上传图片文件的路由，将 /upload/images/ 映射到 ./web/upload/images/ 目录，即 /upload/images/ 为已上传图片文件的访问路径。
-	r.Static("/upload/images/", "./web/upload/images/")
-
 	// 启动 server 的操作
 	// 获取全局配置文件中的应用程序端口号（到时候会去配置文件看一眼）
 	port := config.GetGlobalConf().AppConfig.Port
@@ -79,7 +73,6 @@ func setAppRunMode() {
 }
 
 // AuthMiddleWare 这是一个用于对请求进行身份验证的中间件函数
-// 补充知识：gin.HandlerFunc的参数为 *gin.Context
 func AuthMiddleWare() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 补充：c.Cookie(）就是根据请求的 SessionKey 获取 Cookie 值

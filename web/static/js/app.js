@@ -1,1 +1,0 @@
-let urlPrefix = "http://localhost:8080"
