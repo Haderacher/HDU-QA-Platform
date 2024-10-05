@@ -1,5 +1,5 @@
 # Step 1: 使用官方 Go 镜像作为构建环境
-FROM golang:1.20-alpine AS build
+FROM golang:1.23-alpine AS build
 
 # Step 2: 设置工作目录
 WORKDIR /app
@@ -31,7 +31,7 @@ COPY --from=build /app/conf ./conf
 COPY --from=build /app/config ./config
 
 # Step 11: 暴露服务端口
-EXPOSE 8080
+EXPOSE 8082
 
 # Step 12: 运行二进制文件
 CMD ["./hdu-qa-platform"]

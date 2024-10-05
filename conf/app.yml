@@ -1,13 +1,13 @@
 # 服务的配置信息
 app:
-  app_name: "gouse" # 应用名称
+  app_name: "HDU-QA-Platform" # 应用名称
   version: "v1.0.1" # 版本
   port: 8082        # 服务启用端口
   run_mode: dev # 可选dev、release模式
 
 # 数据库的配置
 db:
-  host: "localhost"     # host
+  host: "mysql-for-qa"     # host
   port: 3306          # port
   user: "root"        # user
   password: "3223061"  # password
@@ -18,7 +18,7 @@ db:
 
 # Redis 配置
 redis:
-  rhost: "localhost"
+  rhost: "redis-for-qa"
   rport: 6379
   rdb: 0
   passwd: ''
