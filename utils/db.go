@@ -21,7 +21,7 @@ func openDB() {
 	mysqlConf := config.GetGlobalConf().DbConfig
 
 	// 使用 fmt.Sprintf 格式化连接参数 connArgs，拼接用户名、密码、主机、端口和数据库名称等连接数据库所需的信息。
-	connArgs := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", mysqlConf.User,
+	connArgs := fmt.Sprintf("%s:%s@%s:%s/%s?charset=utf8&parseTime=True&loc=Local", mysqlConf.User,
 		mysqlConf.Password, mysqlConf.Host, mysqlConf.Port, mysqlConf.Dbname)
 	log.Info("mdb addr:" + connArgs) // 打个日志，输出拼接后的信息
 
