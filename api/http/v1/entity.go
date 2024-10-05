@@ -50,7 +50,7 @@ func (rsp *HttpResponse) ResponseSuccess(c *gin.Context) {
 	c.JSON(http.StatusOK, rsp)
 }
 
-// 这个返回函数给客户端多返回了一个 data 也就是实际的数据（从缓存中获取的用户信息）
+// ResponseWithData 这个返回函数给客户端多返回了一个 data 也就是实际的数据（从缓存中获取的用户信息）
 func (rsp *HttpResponse) ResponseWithData(c *gin.Context, data interface{}) {
 	rsp.Code = CodeSuccess
 	rsp.Msg = "success"

@@ -48,3 +48,26 @@ func CreateQuestion(ctx context.Context, req *CreateQuestionRequest) error {
 	// 创建成功，返回 nil
 	return nil
 }
+
+func ModifyQuestion(req *ModifyQuestionRequest) error {
+	log.Infof("ModifyQuestion|req==%v", req)
+
+	// 根据请求构建一个新的问题对象
+	modifiedQuestion := &model.Question{
+		Title:   req.Title,
+		Content: req.Content,
+	}
+
+	dao.ModifyQuestion(req.Id, modifiedQuestion)
+
+	return nil
+}
+
+func DeleteQuestion(req *DeleteQuestionRequest) error {
+	affected := dao.DeleteQuestion(req.Id)
+	if affected == 0 {
+		log.Errorf("Selected Question id %v Did not exist", req.Id)
+		return fmt.Errorf("selected Question id %v Did not exist", req.Id)
+	}
+	return nil
+}

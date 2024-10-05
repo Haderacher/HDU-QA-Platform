@@ -1,5 +1,7 @@
 package service
 
+import "gouse/internal/model"
+
 // RegisterRequest 注册请求
 type RegisterRequest struct {
 	UserName string `json:"user_name"`
@@ -44,4 +46,24 @@ type UpdateNickNameRequest struct {
 type CreateQuestionRequest struct {
 	Content string `json:"content"`
 	Title   string `json:"title"`
+}
+
+type ModifyQuestionRequest struct {
+	Id      int    `json:"id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
+
+type DeleteQuestionRequest struct {
+	Id int `json:"id"`
+}
+
+type CreateAnswerRequest struct {
+	QuestionId int    `json:"question_id"`
+	Content    string `json:"content"`
+}
+
+type ShowQuestionInDetailResponse struct {
+	Question model.Question `json:"question"`
+	Answer   []model.Answer `json:"answer"`
 }

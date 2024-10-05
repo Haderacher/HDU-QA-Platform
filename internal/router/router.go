@@ -40,6 +40,18 @@ func InitRouterAndServe() {
 	// 创建一个问题
 	r.POST("/question/create", AuthMiddleWare(), api.CreateQuestion)
 
+	// 修改一个问题
+	r.POST("/question/modify", AuthMiddleWare(), api.ModifyQuestion)
+
+	// 删除一个问题
+	r.POST("/question/delete", AuthMiddleWare(), api.DeleteQuestion)
+
+	// 查询一个问题
+	r.GET("/question/show", AuthMiddleWare(), api.ShowQuestion)
+
+	// 创建一个回答
+	r.POST("/question/answer", AuthMiddleWare(), api.CreateAnswer)
+
 	// 设置静态文件的路由，这里将 /static/ 映射到 ./web/static/ 目录，即 /static/ 为静态文件资源的访问路径。
 	r.Static("/static/", "./web/static/")
 
@@ -91,7 +103,7 @@ func AuthMiddleWare() gin.HandlerFunc {
 		// 最终 Gin 框架会将 HTTP 状态码设置为 401（未授权），并将 JSON 数据发送给客户端作为响应
 		// 作用：
 		// 如果没有找到或者 session 为空，则返回一个未授权的错误响应
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "err"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 
 		// c.Abort() 是一个用于终止请求的函数，它可以停止请求链的继续处理，
 		// 确保本次请求不再继续向后执行其他的中间件或请求处理函数

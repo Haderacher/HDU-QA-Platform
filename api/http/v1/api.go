@@ -7,10 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"gouse/config"
+	"gouse/internal/dao"
 	"gouse/internal/service"
 	"gouse/pkg/constant"
 	"gouse/utils"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -250,4 +252,87 @@ func CreateQuestion(c *gin.Context) {
 	}
 
 	rsp.ResponseSuccess(c)
+}
+
+func ModifyQuestion(c *gin.Context) {
+	// 存放修改问题的结构体对象
+	req := &service.ModifyQuestionRequest{}
+
+	// rsp 存储 HTTP请求的响应信息
+	rsp := &HttpResponse{}
+
+	// 解析 JSON 格式的请求体，并将解析结果存储在 req 变量中
+	err := c.ShouldBindJSON(req)
+	if err != nil {
+		log.Errorf("bind update user info request json err %v", err)
+		rsp.ResponseWithError(c, CodeBodyBindErr, err.Error())
+		return
+	}
+
+	if err := service.ModifyQuestion(req); err != nil {
+		rsp.ResponseWithError(c, CodeUpdateUserInfoErr, err.Error())
+		return
+	}
+	rsp.ResponseSuccess(c)
+}
+
+func DeleteQuestion(c *gin.Context) {
+	// 存放修改问题的结构体对象
+	req := &service.DeleteQuestionRequest{}
+
+	// rsp 存储 HTTP请求的响应信息
+	rsp := &HttpResponse{}
+
+	// 解析 JSON 格式的请求体，并将解析结果存储在 req 变量中
+	err := c.ShouldBindJSON(req)
+	if err != nil {
+		log.Errorf("bind update user info request json err %v", err)
+		rsp.ResponseWithError(c, CodeBodyBindErr, err.Error())
+		return
+	}
+	err = service.DeleteQuestion(req)
+	if err != nil {
+		rsp.ResponseWithError(c, CodeRegisterErr, err.Error())
+		return
+	}
+}
+
+func CreateAnswer(c *gin.Context) {
+	// 获取请求中的名为 SessionKey 的 cookie 值，并赋值给 session 变量
+	session, _ := c.Cookie(constant.SessionKey)
+
+	// 创建一个 SessionKey 和 session 的键值对到上下文中
+	ctx := context.WithValue(context.Background(), constant.SessionKey, session)
+	// req 变量用于存储创建问题请求信息
+	req := &service.CreateAnswerRequest{}
+
+	// rsp 变量用于存储 http请求的响应信息
+	rsp := &HttpResponse{}
+
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		log.Errorf("request json err %v", err)
+		rsp.ResponseWithError(c, CodeBodyBindErr, err.Error())
+		return
+	}
+
+	if err := service.CreateAnswer(ctx, req); err != nil {
+		rsp.ResponseWithError(c, CodeRegisterErr, err.Error())
+		return
+	}
+
+	rsp.ResponseSuccess(c)
+}
+
+func ShowQuestion(c *gin.Context) {
+
+	idStr := c.Query("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		// Handle the error, for example, return a bad request response
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+	info, _ := dao.ShowQuestionInDetail(id)
+	c.JSON(http.StatusOK, info)
 }
